@@ -1,4 +1,4 @@
-name: CI
+name: CI + Deploy 🚀
 
 on:
   push:
@@ -37,3 +37,22 @@ jobs:
           cache: npm
           cache-dependency-path: server/package-lock.json
       - run: npm ci
+
+  deploy:
+    name: Deploy to Vercel 🚀
+    runs-on: ubuntu-latest
+
+    # 👇 IMPORTANT: wait for both builds
+    needs: [build-client, build-server]
+
+    # 👇 only deploy on push (not PR)
+    if: github.event_name == 'push'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+
+      - name: Deploy to Vercel
+        run: vercel --prod --token=${{ secrets.VERCEL_TOKEN }}
