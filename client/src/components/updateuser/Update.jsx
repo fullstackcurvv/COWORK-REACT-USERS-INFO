@@ -23,7 +23,7 @@ const Update = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/api/user/${id}`)
+      .get(`${process.env.REACT_APP_API_URL}/api/user/${id}`)
       .then((response) => {
         setUser(response.data);
       })
@@ -36,7 +36,7 @@ const Update = () => {
     //copied from Add.jsx since it's same but change API
     e.preventDefault();
     await axios
-      .put(`http://localhost:8000/api/update/${id}`, user)
+      .put(`${process.env.REACT_APP_API_URL}/api/update/${id}`, user)
       .then((response) => {
         console.log(response.data.message);
         toast.success(response.data.message, { position: "top-right" });
